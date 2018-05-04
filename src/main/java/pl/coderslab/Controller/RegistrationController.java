@@ -1,5 +1,6 @@
 package pl.coderslab.Controller;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +15,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class RegistrationController {
 
     @Autowired
     private UserRepository userRepository;
@@ -32,6 +33,8 @@ public class UserController {
             return "form/registration";
         }
 
+        String hashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+        user.setPassword(hashed);
         userRepository.save(user);
         return "redirect:/";
     }

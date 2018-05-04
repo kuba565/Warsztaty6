@@ -4,12 +4,11 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.mindrot.jbcrypt.BCrypt;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -17,6 +16,34 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
+    @Size(min = 4, max = 30)
+    @Column(unique = true)
+    private String username;
+
+    @NotBlank
+    private String password;
+
+    @NotNull
+    private Boolean enabled = true;
+
+    @NotBlank
+    @Email
+    @Column(unique = true)
+    @Size(min = 4, max = 30)
+    private String email;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Tweet> tweetList = new ArrayList<>();
+
+    public List<Tweet> getTweetList() {
+        return tweetList;
+    }
+
+    public void setTweetList(List<Tweet> tweetList) {
+        this.tweetList = tweetList;
+    }
 
     public User() {
     }
@@ -44,8 +71,7 @@ public class User {
 
 
     public void setPassword(String password) {
-        String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
-        this.password = hashed;
+        this.password = password;
     }
 
     public Boolean getEnabled() {
@@ -64,18 +90,5 @@ public class User {
         this.email = email;
     }
 
-    @NotBlank
-    @Size(min = 4, max = 30)
-    private String username;
 
-    @NotBlank
-    private String password;
-
-    @NotNull
-    private Boolean enabled = true;
-
-    @NotBlank
-    @Email
-    @Size(min = 4, max = 30)
-    private String email;
 }
