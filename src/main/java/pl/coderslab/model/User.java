@@ -37,6 +37,17 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Tweet> tweetList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Comment> commentsList = new ArrayList<>();
+
+    public List<Comment> getCommentsList() {
+        return commentsList;
+    }
+
+    public void setCommentsList(List<Comment> commentsList) {
+        this.commentsList = commentsList;
+    }
+
     public List<Tweet> getTweetList() {
         return tweetList;
     }

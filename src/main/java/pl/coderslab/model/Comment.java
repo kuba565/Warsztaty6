@@ -1,16 +1,12 @@
 package pl.coderslab.model;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-public class Tweet {
-
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,16 +14,15 @@ public class Tweet {
     @ManyToOne
     private User user;
 
-    @NotBlank
-    private String text;
+    @ManyToOne
+    private Tweet tweet;
 
     @CreationTimestamp
     private LocalDateTime created;
 
-    @OneToMany(mappedBy = "tweet", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
+    private String text;
 
-    public Tweet() {
+    public Comment() {
     }
 
     public Long getId() {
@@ -46,12 +41,12 @@ public class Tweet {
         this.user = user;
     }
 
-    public String getText() {
-        return text;
+    public Tweet getTweet() {
+        return tweet;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setTweet(Tweet tweet) {
+        this.tweet = tweet;
     }
 
     public LocalDateTime getCreated() {
@@ -60,5 +55,13 @@ public class Tweet {
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }

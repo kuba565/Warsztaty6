@@ -1,5 +1,6 @@
 package pl.coderslab.Controller;
 
+import jdk.nashorn.internal.objects.AccessorPropertyDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,8 +8,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.coderslab.model.Comment;
 import pl.coderslab.model.Tweet;
 import pl.coderslab.model.User;
+import pl.coderslab.repository.CommentRepository;
 import pl.coderslab.repository.TweetRepository;
 import pl.coderslab.repository.UserRepository;
 
@@ -22,13 +25,16 @@ public class HomeController {
 
 
     @Autowired
-    TweetRepository tweetRepository;
+    private TweetRepository tweetRepository;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private HttpSession session;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
 
     @RequestMapping("/")
@@ -59,10 +65,32 @@ public class HomeController {
     @RequestMapping("/tweetInfo/{id}")
     public String tweetInfo(Model model, @PathVariable Long id) {
         Tweet tweet = tweetRepository.getOne(id);
+        List<Comment> comments = commentRepository.getAllByTweet(tweet);
 
         model.addAttribute("tweet", tweet);
+        model.addAttribute("comment", new Comment());
+        model.addAttribute("commentsList", comments);
 
         return "tweetInfo";
+    }
+
+    @PostMapping("/tweetInfo/{id}")
+    String addComment(@Valid Comment comment, BindingResult result, @PathVariable Long id) {
+        if (result.hasErrors()) {
+            return "tweetInfo/{id}";
+        }
+
+        String username = (String) session.getAttribute("loggedUser");
+
+        User user = userRepository.getUserByUsername(username);
+
+        Tweet tweet = tweetRepository.getOne(id);
+
+        comment.setUser(user);
+        comment.setTweet(tweet);
+        commentRepository.save(comment);
+
+        return "redirect:/tweetInfo/{id}";
     }
 
 }
