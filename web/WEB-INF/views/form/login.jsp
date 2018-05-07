@@ -6,26 +6,30 @@
   Time: 15:54
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8" %>
+
 <html>
 <head>
     <title>Login</title>
 </head>
 <body>
+<a href="/">Homepage</a>
+<br>
 
 <%--@elvariable id="user" type="pl.coderslab.model.User"--%>
+
 <form:form modelAttribute="user">
     <form:errors path="*"/>
 
     <label for="username">Nazwa użytkownika</label>
+    <br>
     <form:input path="username" id="username"/>
-
-    <label for="email">E-mail</label>
-    <form:input path="email" id="email"/>
+    <br>
 
     <label for="password">Hasło</label>
+    <br>
     <form:password path="password" id="password"/>
-
+    <br>
     <button type="submit">Zaloguj</button>
 </form:form>
 </body>

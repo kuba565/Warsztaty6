@@ -28,6 +28,13 @@ public class User {
     @NotNull
     private Boolean enabled = true;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sender")
+    private List<Message> sentMessages = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipient")
+    private List<Message> receivedMessages = new ArrayList<>();
+
+
     @NotBlank
     @Email
     @Column(unique = true)
@@ -39,6 +46,22 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> commentsList = new ArrayList<>();
+
+    public List<Message> getSentMessages() {
+        return sentMessages;
+    }
+
+    public void setSentMessages(List<Message> sentMessages) {
+        this.sentMessages = sentMessages;
+    }
+
+    public List<Message> getReceivedMessages() {
+        return receivedMessages;
+    }
+
+    public void setReceivedMessages(List<Message> receivedMessages) {
+        this.receivedMessages = receivedMessages;
+    }
 
     public List<Comment> getCommentsList() {
         return commentsList;

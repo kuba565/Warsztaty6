@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8" %>
+
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
@@ -15,6 +17,7 @@
 </head>
 <body>
 <a href="/">Homepage</a>
+<a href="/user/logout">Logout</a>
 <br>
 <table>
     <tr>

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import pl.coderslab.model.StringUserConverter;
 import pl.coderslab.model.UserConverter;
 
 import javax.persistence.EntityManagerFactory;
@@ -58,11 +59,17 @@ public class SpringDiApplication extends WebMvcConfigurerAdapter {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(getUserConverter());
+        registry.addConverter(getStringUserConverter());
     }
 
     @Bean
     public UserConverter getUserConverter() {
         return new UserConverter();
+    }
+
+    @Bean
+    public StringUserConverter getStringUserConverter() {
+        return new StringUserConverter();
     }
 
 }

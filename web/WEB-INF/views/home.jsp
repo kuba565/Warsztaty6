@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8" %>
+
 <html>
 <head>
     <title>Home Controller</title>
@@ -10,14 +11,15 @@
 <h1>Strona Główna</h1>
 <c:if test="${sessionScope.loggedUser==null}">
 
-    <a href="user/login">Login</a>
-    <a href="user/registration">Register</a>
+    <a href="/user/login">Login</a>
+    <a href="/user/registration">Register</a>
 
 </c:if>
 <c:if test="${sessionScope.loggedUser!=null}">
 Witaj ${sessionScope.loggedUser}!
-<a href="user/tweets">Twoje tweety</a>
+<br>
 
+<a href="/user/logout">Logout</a>|<a href="user/tweets">Twoje tweety</a>| <a href="user/messages">Twoje wiadomości</a>
 <br>
 
 
@@ -44,7 +46,7 @@ Witaj ${sessionScope.loggedUser}!
             <td>${tweet.text}</td>
             <td>${tweet.created}</td>
             <td>${tweet.user.username}</td>
-            <td><a href="tweetInfo/${tweet.id}">info</a> </td>
+            <td><a href="tweetInfo/${tweet.id}">info</a></td>
         </tr>
     </c:forEach>
     </c:if>

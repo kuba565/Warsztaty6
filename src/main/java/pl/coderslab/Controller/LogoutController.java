@@ -16,35 +16,17 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/user")
-public class LoginController {
+public class LogoutController {
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private HttpSession session;
 
-    @GetMapping("/login")
+    @GetMapping("/logout")
     String loginForm(Model model) {
-        model.addAttribute("user", new User());
-        return "form/login";
+        session.invalidate();
+        return "home";
     }
 
-    @PostMapping("/login")
-    String login(@Valid User user, BindingResult result) {
 
-        User checkUser = userRepository.getUserByUsername(user.getUsername());
-
-
-        user.setEmail(checkUser.getEmail());
-//        if (result.hasErrors()) {
-//            return "form/login";
-//        }
-        if (BCrypt.checkpw(user.getPassword(), checkUser.getPassword())) {
-            session.setAttribute("loggedUser", checkUser.getUsername());
-            return "redirect:/";
-        } else {
-            return "form/login";
-        }
-    }
 }
