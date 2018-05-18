@@ -80,16 +80,17 @@ public class HomeController {
             return "tweetInfo/{id}";
         }
 
+        Tweet tweet = tweetRepository.getOne(id);
+
         String username = (String) session.getAttribute("loggedUser");
 
         User user = userRepository.getUserByUsername(username);
 
-        Tweet tweet = tweetRepository.getOne(id);
 
         comment.setUser(user);
         comment.setTweet(tweet);
-        commentRepository.save(comment);
 
+        commentRepository.save(comment);
         return "redirect:/tweetInfo/{id}";
     }
 

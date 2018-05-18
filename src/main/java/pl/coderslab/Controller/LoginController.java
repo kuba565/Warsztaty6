@@ -37,10 +37,10 @@ public class LoginController {
 
 
         user.setEmail(checkUser.getEmail());
-//        if (result.hasErrors()) {
-//            return "form/login";
-//        }
+
         if (BCrypt.checkpw(user.getPassword(), checkUser.getPassword())) {
+
+            session.invalidate();
             session.setAttribute("loggedUser", checkUser.getUsername());
             return "redirect:/";
         } else {
